@@ -12,11 +12,56 @@
         <main class = "form-signin">
             <form id = "form">
                 <h1 class = "h3 mb-3 fw-normal">Forgot Password?</h1>
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="spanEmail">
-                        <i class="bi bi-envelope"></i>
+                <div class="input-group mb-3" id = "divUser">
+                    <span class="input-group-text" id="spanUser">
+                        <i class="bi bi-file-earmark-person"></i>
                     </span>
-                    <input type="email" id = "email" class="form-control" placeholder="Email Address" aria-label="Email Address" aria-describedby="basic-addon1">
+                    <input type="text" id = "username" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+                </div>
+                <div class = "error">
+                    <h1 class = "h6 mb-3 fw-normal" id = "errUser"></h1>
+                </div>
+                <div class="input-group mb-3 hidden" id = "divQues">
+                    <span class="input-group-text" id="spanQues">
+                        <i class="bi bi-patch-question-fill"></i>
+                    </span>
+                    <select id = "ques" class = "form-control" aria-label="Pick a security question..."></select>
+                </div>
+                <div class="input-group mb-3 hidden" id = "divAns">
+                    <span class="input-group-text" id="spanAns">
+                        <i class="bi bi-lightbulb-fill"></i>
+                    </span>
+                    <input type="text" id = "answer" class="form-control" placeholder="Answer" aria-label="Answer" aria-describedby="basic-addon1">
+                </div>
+                <div class = "error">
+                    <h1 class = "h6 mb-3 fw-normal" id = "errAns"></h1>
+                </div>
+                <div class="input-group mb-3 hidden" id = "divPass">
+                    <span class="input-group-text" id="spanPass">
+                        <i class="bi bi-key-fill"></i>
+                    </span>
+                    <input type="password" id = "password" class="form-control" placeholder="New password" aria-label="New password" aria-describedby="basic-addon1">
+                </div>
+                <div class = "error">
+                    <h1 class = "h6 mb-3 fw-normal" id = "errPass"></h1>
+                </div>
+                <div class="input-group mb-3 hidden" id = "divConfirm">
+                    <span class="input-group-text" id="spanConfirm">
+                        <i class="bi bi-key-fill"></i>
+                    </span>
+                    <input type="password" id = "confirm" class="form-control" placeholder="Confirm new password" aria-label="New password" aria-describedby="basic-addon1">
+                </div>
+                <div class = "error">
+                    <h1 class = "h6 mb-3 fw-normal" id = "errConfirm"></h1>
+                </div>
+                <div class = "error">
+                    <h1 class = "h6 mb-3 fw-normal" id = "errErr"></h1>
+                </div>
+                <div class = "message">
+                    <h1 class = "h6 mb-3 fw-normal" id = "message"></h1>
+                </div>
+                <div class = "message">
+                    <h1 class = "h6 mb-3 fw-normal" id = "message2"></h1>
                 </div>
                 <button class="w-100 btn btn-lg btn-primary" type="submit" id = "submit">Submit</button>
                 <a href = "Login.html">
@@ -24,6 +69,6 @@
                 </a>
             </form>
         </main>
-        <script src = "../js/forgot.js"></script>
+        <script type = "module" src = "../js/forgot.js"></script>
     </body>
 </html>

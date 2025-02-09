@@ -13,43 +13,121 @@
             <form id = "form">
                 <h1 class = "h3 mb-3 fw-normal">Create an account</h1>
                 <div class="d-flex">
-                    <div class =" input-group mb-3 me-2 flex-grow-1">
-                        <span class ="input-group-text" id="spanFirstName">
+                    <div class =" input-group mb-3 me-2 flex-grow-1" id = "divFirst">
+                        <span class ="input-group-text" id="spanFirst">
                             <i class="bi bi-file-earmark-person"></i>
                         </span>
                         <input type="text" id="firstname" class="form-control" placeholder="First Name" aria-label="First Name" aria-describedby="spanFirstName">
                     </div>
-                    <div class="input-group mb-3 flex-grow-1">
-                        <span class="input-group-text" id="spanLastName">
+                    <div class="input-group mb-3 flex-grow-1" id = "divLast">
+                        <span class="input-group-text" id="spanLast">
                             <i class="bi bi-file-earmark-person"></i>
                         </span>
                         <input type="text" id="lastname" class="form-control" placeholder="Last Name" aria-label="Last Name" aria-describedby="spanLastName">
                     </div>
                 </div>
-                <div class="input-group mb-3">
+                <div class = "error">
+                    <h1 class = "h6 mb-3 fw-normal" id = "errName"></h1>
+                </div>
+                <div class="input-group mb-3" id = "divUser">
+                    <span class="input-group-text" id="spanUser">
+                        <i class="bi-file-earmark-person"></i>
+                    </span>
+                    <input type="text" id = "username" class="form-control" placeholder="Username" aria-label="Email Address" aria-describedby="basic-addon1">
+                </div>
+                <div class = "error">
+                    <h1 class = "h6 mb-3 fw-normal" id = "errUser"></h1>
+                </div>
+                <div class="input-group mb-3" id = "divEmail">
                     <span class="input-group-text" id="spanEmail">
                         <i class="bi bi-envelope"></i>
                     </span>
                     <input type="email" id = "email" class="form-control" placeholder="Email Address" aria-label="Email Address" aria-describedby="basic-addon1">
                 </div>
-                <div class="input-group mb-3">
+                <div class = "error">
+                    <h1 class = "h6 mb-3 fw-normal" id = "errEmail"></h1>
+                </div>
+                <div class="input-group mb-3" id = "divPassword">
                     <span class="input-group-text" id="spanPassword">
                         <i class="bi bi-lock"></i>
                     </span>
                     <input type="password" id = "password" class="form-control" placeholder="Password" aria-label="Password" aria-describedby="basic-addon1">
                 </div>
-                <div class="input-group mb-3">
+                <div class = "error">
+                    <h1 class = "h6 mb-3 fw-normal" id = "errPassword"></h1>
+                </div>
+                <div class="input-group mb-3" id = "divConfirm">
                     <span class="input-group-text" id="spanConfirm">
                         <i class="bi bi-lock"></i>
                     </span>
                     <input type="password" id = "confirmPassword" class="form-control" placeholder="Confirm Password" aria-label="confirmPassword" aria-describedby="basic-addon1">
                 </div>
-                <button class="w-100 btn btn-lg btn-primary" type="submit" id = "submit">Create account</button>
+                <div class = "error">
+                    <h1 class = "h6 mb-3 fw-normal" id = "errConfirm"></h1>
+                </div>
+                <div class="input-group mb-3" id = "divQues1">
+                    <span class="input-group-text" id="spanQues1">
+                        <i class="bi bi-patch-question-fill"></i>
+                    </span>
+                    <select id = "ques1" class = "form-control" aria-label="Security Question 1"></select>
+                </div>
+                <div class = "error">
+                    <h1 class = "h6 mb-3 fw-normal" id = "errQues1"></h1>
+                </div>
+                <div class="input-group mb-3" id = "divAns1">
+                    <span class="input-group-text" id="spanQues1Ans">
+                        <i class="bi bi-key-fill"></i>
+                    </span>
+                    <input type="text" id = "ques1Ans" class="form-control" placeholder="Security Question 1 Answer" aria-label="confirmPassword" aria-describedby="basic-addon1">
+                </div>
+                <div class = "error">
+                    <h1 class = "h6 mb-3 fw-normal" id = "errAns1"></h1>
+                </div>
+                <div class="input-group mb-3" id = "divQues2">
+                    <span class="input-group-text" id="spanQues2">
+                        <i class="bi bi-patch-question-fill"></i>
+                    </span>
+                    <select id = "ques2" class = "form-control" aria-label="Security Question 2"></select>
+                </div>
+                <div class = "error">
+                    <h1 class = "h6 mb-3 fw-normal" id = "errQues2"></h1>
+                </div>
+                <div class="input-group mb-3" id = "divAns2">
+                    <span class="input-group-text" id="spanQues2Ans">
+                        <i class="bi bi-key-fill"></i>
+                    </span>
+                    <input type="text" id = "ques2Ans" class="form-control" placeholder="Security Question 2 Answer" aria-label="confirmPassword" aria-describedby="basic-addon1">
+                </div>
+                <div class = "error">
+                    <h1 class = "h6 mb-3 fw-normal" id = "errAns2"></h1>
+                </div>
+                <div class="input-group mb-3" id = "divQues3">
+                    <span class="input-group-text" id="spanQues3">
+                        <i class="bi bi-patch-question-fill"></i>
+                    </span>
+                    <select id = "ques3" class = "form-control" aria-label="Security Question 3"></select>
+                </div>
+                <div class = "error">
+                    <h1 class = "h6 mb-3 fw-normal" id = "errQues3"></h1>
+                </div>
+                <div class="input-group mb-3" id = "divAns3">
+                    <span class="input-group-text" id="spanQues1An3">
+                        <i class="bi bi-key-fill"></i>
+                    </span>
+                    <input type="text" id = "ques3Ans" class="form-control" placeholder="Security Question 3 Answer" aria-label="confirmPassword" aria-describedby="basic-addon1">
+                </div>
+                <div class = "error">
+                    <h1 class = "h6 mb-3 fw-normal" id = "errAns3"></h1>
+                </div>
+                <div class = "error">
+                    <h1 class = "h6 mb-3 fw-normal" id = "err"></h1>
+                </div>
+                <button class="w-100 btn btn-lg btn-primary" type="submit" id = "button">Create account</button>
                 <div class = "links">
                     Already have an account? <a href = "Login.html" class = "forgot">Log in</a>
                 </div>
             </form>
         </main>
-        <script src = "../js/login.js"></script>
+        <script type = "module" src = "../js/register.js"></script>
     </body>
 </html>

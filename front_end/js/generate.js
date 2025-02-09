@@ -1,4 +1,4 @@
-import {disableForm, enableForm} from "./forms";
+import {disableForm, enableForm} from "./utility";
 
 const month = document.getElementById("month");
 const day = document.getElementById("day");
