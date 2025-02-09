@@ -31,3 +31,21 @@ body {
 .input-group {
     height: 50px;
 }
+
+.input-group.error {
+    border-color: red;
+    box-shadow: 0 0 10px red;
+    transition: box-shadow 0.5s ease-in-out;
+}
+
+.input-group.error:focus-within {
+    box-shadow: 0 0 15px red;
+}
+
+.error {
+    color: red;
+}
+
+.message {
+    color: forestgreen;
+}
