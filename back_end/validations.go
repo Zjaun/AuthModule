@@ -27,9 +27,9 @@ func validFirst(first string) (valid bool, field, reason string) {
 	if v, f, r := commonChecks(f, first); !v {
 		return v, f, r
 	}
-	if !unicode.IsLetter(rune(first[0])) {
-		return false, f, "Must begin with a letter."
-	}
+	// if !unicode.IsLetter(rune(first[0])) {
+	// 	return false, f, "Must begin with a letter."
+	// }
 	if !firstNameRegex.MatchString(first) {
 		return false, f, "Only letters, hyphens, apostrophes, and spaces are allowed."
 	}
@@ -41,9 +41,9 @@ func validLast(last string) (valid bool, field, reason string) {
 	if v, f, r := commonChecks(f, last); !v {
 		return v, f, r
 	}
-	if !unicode.IsLetter(rune(last[0])) {
-		return false, f, "Must begin with a letter."
-	}
+	// if !unicode.IsLetter(rune(last[0])) {
+	// 	return false, f, "Must begin with a letter."
+	// }
 	if !lastNameRegex.MatchString(last) {
 		return false, f, "Only letters, hyphens, and apostrophes are allowed."
 	}
