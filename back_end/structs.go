@@ -2,6 +2,7 @@ package back_end
 
 type User struct {
 	Username  string
+	Position  string
 	FirstName string
 	LastName  string
 	Email     string

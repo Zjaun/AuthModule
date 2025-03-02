@@ -28,6 +28,10 @@ body {
     margin-right: 10px;
 }
 
+.indent-50 {
+    padding-left: 50px;
+}
+
 .input-group {
     height: 50px;
 }
@@ -44,4 +48,8 @@ body {
 
 .error {
     color: red;
+}
+
+.message {
+    color: forestgreen;
 }

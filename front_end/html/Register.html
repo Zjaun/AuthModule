@@ -29,6 +29,15 @@
                 <div class = "error">
                     <h1 class = "h6 mb-3 fw-normal" id = "errName"></h1>
                 </div>
+                <div class="input-group mb-3" id = "divPosition">
+                    <span class="input-group-text" id="spanPosition">
+                        <i class="bi-file-earmark-person"></i>
+                    </span>
+                    <select id = "position" class = "form-control" aria-label="Security Question 1"></select>
+                </div>
+                <div class = "error">
+                    <h1 class = "h6 mb-3 fw-normal" id = "errPosition"></h1>
+                </div>
                 <div class="input-group mb-3" id = "divUser">
                     <span class="input-group-text" id="spanUser">
                         <i class="bi-file-earmark-person"></i>
@@ -52,6 +61,15 @@
                         <i class="bi bi-lock"></i>
                     </span>
                     <input type="password" id = "password" class="form-control" placeholder="Password" aria-label="Password" aria-describedby="basic-addon1">
+                </div>
+                <div style = "text-align: left; display: none;" id = "divPwReqs">
+                    <ul class = "indent-50">
+                        <li id = "pw1">Should be at least 8 characters</li>
+                        <li id = "pw2">Should contain at least one uppercase letter</li>
+                        <li id = "pw3">Should contain at least one lowercase letter</li>
+                        <li id = "pw4">Should contain at least one number</li>
+                        <li id = "pw5">Should contain at least one special character</li>
+                    </ul>
                 </div>
                 <div class = "error">
                     <h1 class = "h6 mb-3 fw-normal" id = "errPassword"></h1>
@@ -121,6 +139,12 @@
                 </div>
                 <div class = "error">
                     <h1 class = "h6 mb-3 fw-normal" id = "err"></h1>
+                </div>
+                <div class = "message">
+                    <h1 class = "h6 mb-3 fw-normal" id = "message"></h1>
+                </div>
+                <div class = "message">
+                    <h1 class = "h6 mb-3 fw-normal" id = "message2"></h1>
                 </div>
                 <button class="w-100 btn btn-lg btn-primary" type="submit" id = "button">Create account</button>
                 <div class = "links">

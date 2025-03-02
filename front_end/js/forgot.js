@@ -47,26 +47,26 @@ function generateQuestions(q1, q2, q3) {
 
 async function submit() {
 
-    if (!isHidden(divs["divQues"])) {
-        if (fields["Answer"].value === "") {
-            showDivError(divs["divAns"]);
-            showError(textBox["errAns"], "Cannot be empty.");
-            return;
-        } else if (fields["Password"].value === "") {
-            showDivError(divs["divPass"]);
-            showError(textBox["errPass"], "Cannot be empty.");
-            return;
-        } else if (fields["Confirm"].value === "") {
-            showDivError(divs["divConfirm"]);
-            showError(textBox["errConfirm"], "Cannot be empty.");
-            return;
-        } else if (fields["Password"].value !== fields["Confirm"].value) {
-            showDivError(divs["divPass"]);
-            showDivError(divs["divConfirm"]);
-            showError(textBox["errConfirm"], "Passwords do not match.");
-            return;
-        }
-    }
+    // if (!isHidden(divs["divQues"])) {
+    //     if (fields["Answer"].value === "") {
+    //         showDivError(divs["divAns"]);
+    //         showError(textBox["errAns"], "Cannot be empty.");
+    //         return;
+    //     } else if (fields["Password"].value === "") {
+    //         showDivError(divs["divPass"]);
+    //         showError(textBox["errPass"], "Cannot be empty.");
+    //         return;
+    //     } else if (fields["Confirm"].value === "") {
+    //         showDivError(divs["divConfirm"]);
+    //         showError(textBox["errConfirm"], "Cannot be empty.");
+    //         return;
+    //     } else if (fields["Password"].value !== fields["Confirm"].value) {
+    //         showDivError(divs["divPass"]);
+    //         showDivError(divs["divConfirm"]);
+    //         showError(textBox["errConfirm"], "Passwords do not match.");
+    //         return;
+    //     }
+    // }
 
     let body;
     if (isHidden(divs["divQues"])) {
@@ -89,8 +89,6 @@ async function submit() {
         })
     }
 
-    console.log(body);
-
     try {
         const response = await fetch("http://localhost:8080/reset", {
             method: "POST",
@@ -105,7 +103,6 @@ async function submit() {
             throw new Error(errorMessage);
         }
         const data = await response.json();
-        console.log(data)
         if (data["field"] === "Err") {
             showError(textBox["errErr"], "Please contact developer: " + data["reason"]);
             return;
@@ -117,17 +114,19 @@ async function submit() {
             hideDiv(divs["divConfirm"]);
             textBox["message"].innerText = "Successfully Changed Password.";
             textBox["message2"].innerText = "Redirecting to login page...";
-            await delay(1500);
+            await delay(2500);
             window.location.replace("http://localhost:8080/Login.html");
         } else {
-            if (data["field"] === "username") {
+            if (data["field"] === "User") {
                 hideDiv(divs["divQues"])
                 hideDiv(divs["divAns"])
                 hideDiv(divs["divPass"]);
                 hideDiv(divs["divConfirm"]);
                 showDivError(divs["divUser"]);
                 showError(textBox["errUser"], data["reason"]);
-            } else if (data["field"] === "Answer") {
+                return;
+            }
+            if (data["field"] === "Answer") {
                 showDivError(divs["divAns"]);
                 showError(textBox["errAns"], data["reason"]);
             } else if (data["q1"] !== "") {
@@ -136,6 +135,23 @@ async function submit() {
                 showDiv(divs["divPass"]);
                 showDiv(divs["divConfirm"]);
                 generateQuestions(data["q1"], data["q2"], data["q3"]);
+            } else if (fields["Answer"].value === "") {
+                showDivError(divs["divAns"]);
+                showError(textBox["errAns"], "Cannot be empty.");
+                return;
+            } else if (fields["Password"].value === "") {
+                showDivError(divs["divPass"]);
+                showError(textBox["errPass"], "Cannot be empty.");
+                return;
+            } else if (fields["Confirm"].value === "") {
+                showDivError(divs["divConfirm"]);
+                showError(textBox["errConfirm"], "Cannot be empty.");
+                return;
+            } else if (fields["Password"].value !== fields["Confirm"].value) {
+                showDivError(divs["divPass"]);
+                showDivError(divs["divConfirm"]);
+                showError(textBox["errConfirm"], "Passwords do not match.");
+                return;
             }
         }
     } catch (error) {

@@ -2,6 +2,7 @@ package back_end
 
 type RegistrationRequest struct {
 	Username  string `json:"username"`
+	Position  string `json:"position"`
 	FirstName string `json:"first"`
 	LastName  string `json:"last"`
 	Email     string `json:"email"`
