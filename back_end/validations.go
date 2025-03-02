@@ -5,7 +5,6 @@ import (
 	"regexp"
 	"strconv"
 	"strings"
-	"unicode"
 )
 
 var (
@@ -109,6 +108,7 @@ func ValidateRegistration(r *RegistrationRequest) *ValidationResponse {
 	}
 	user := User{
 		Username:  r.Username,
+		Position:  r.Position,
 		FirstName: r.FirstName,
 		LastName:  r.LastName,
 		Email:     r.Email,

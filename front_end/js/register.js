@@ -1,8 +1,19 @@
-import {clearError, clearDivError, isBlank, showError, showDivError} from "./utility.js";
+import {
+    clearError,
+    clearDivError,
+    isBlank,
+    showError,
+    showDivError,
+    delay,
+    hideDiv,
+    showDiv,
+    displayBlock, displayNone
+} from "./utility.js";
 
 // for showing errors
-const errs = {
+const textBox = {
     "errName": document.getElementById("errName"),
+    "errPosition": document.getElementById("errPosition"),
     "errUser": document.getElementById("errUser"),
     "errEmail": document.getElementById("errEmail"),
     "errPassword": document.getElementById("errPassword"),
@@ -13,13 +24,16 @@ const errs = {
     "errAns1": document.getElementById("errAns1"),
     "errAns2": document.getElementById("errAns2"),
     "errAns3": document.getElementById("errAns3"),
-    "errErr": document.getElementById("err")
+    "errErr": document.getElementById("err"),
+    "message": document.getElementById("message"),
+    "message2": document.getElementById("message2")
 };
 
 // for input fields
 const fields = {
     "First": document.getElementById("firstname"),
     "Last": document.getElementById("lastname"),
+    "Position": document.getElementById("position"),
     "User": document.getElementById("username"),
     "Email": document.getElementById("email"),
     "Password": document.getElementById("password"),
@@ -36,9 +50,11 @@ const fields = {
 const divs = {
     "divName": document.getElementById("divFirst"),    // 0
     "divLast": document.getElementById("divLast"),     // 1
+    "divPosition": document.getElementById("divPosition"),
     "divUser": document.getElementById("divUser"),     // 2
     "divEmail": document.getElementById("divEmail"),    // 3
     "divPassword": document.getElementById("divPassword"), // 4
+    "divPwReqs": document.getElementById("divPwReqs"),
     "divConfirm": document.getElementById("divConfirm"),  // 5
     "divQues1": document.getElementById("divQues1"),    // 6
     "divQues2": document.getElementById("divQues2"),    // 7
@@ -48,7 +64,19 @@ const divs = {
     "divAns3": document.getElementById("divAns3")      // 11
 };
 
-const button = document.getElementById("button")
+// for password requirements
+const pwReqFields = {
+    "pw1": document.getElementById("pw1"),
+    "pw2": document.getElementById("pw2"),
+    "pw3": document.getElementById("pw3"),
+    "pw4": document.getElementById("pw4"),
+    "pw5": document.getElementById("pw5"),
+}
+const regexUpper = /[A-Z]+/;
+const regexLower = /[a-z]+/;
+const regexNumber = /[0-9]+/;
+const regexSpecial = /[^a-zA-Z0-9\s]/;
+
 const form = document.getElementById("form");
 
 const questions = [
@@ -94,7 +122,13 @@ const questions = [
     "What was your favorite TV show growing up?"
 ]
 
-function generateOptions(value, question) {
+const positions = [
+    "Admin",
+    "Staff",
+    "Customer"
+]
+
+function generateQuestions(value, question) {
     const option1 = document.createElement("option");
     const option2 = document.createElement("option");
     const option3 = document.createElement("option");
@@ -107,18 +141,29 @@ function generateOptions(value, question) {
     return [option1, option2, option3]
 }
 
-function populateQuestions() {
+function generatePosition(position) {
+    const option = document.createElement("option");
+    option.value = position;
+    option.text = position;
+    return option;
+}
+
+function populateSelections() {
     for (let i = 0; i < questions.length; i++) {
-        const options = generateOptions(i, questions[i]);
+        const options = generateQuestions(i, questions[i]);
         fields["Ques1"].appendChild(options[0]);
         fields["Ques2"].appendChild(options[1]);
         fields["Ques3"].appendChild(options[2]);
     }
+    for (let i = 0; i < positions.length; i++) {
+        const options = generatePosition(positions[i]);
+        fields["Position"].appendChild(options);
+    }
 }
 
 function clearSuggestions() {
-    for (const err in errs) {
-        clearError(errs[err]);
+    for (const err in textBox) {
+        clearError(textBox[err]);
     }
     for (const div in divs) {
         clearDivError(divs[div]);
@@ -128,8 +173,8 @@ function clearSuggestions() {
 function showErrSame(index1, index2, message) {
     showDivError(divs["div" + index1]);
     showDivError(divs["div" + index2]);
-    showError(errs["err" + index1], message);
-    showError(errs["err" + index2], message);
+    showError(textBox["err" + index1], message);
+    showError(textBox["err" + index2], message);
 }
 
 function hasSameQuestions() {
@@ -159,6 +204,7 @@ async function register() {
     try {
         const body = JSON.stringify({
             username: fields["User"].value,
+            position: fields["Position"].value,
             first: fields["First"].value,
             last: fields["Last"].value,
             email: fields["Email"].value,
@@ -184,14 +230,17 @@ async function register() {
         }
         const data = await response.json();
         if (data["valid"]) {
-            alert("Success!");
+            textBox["message"].innerText = "Successfully registered!";
+            textBox["message2"].innerText = "Redirecting to login page...";
+            await delay(2500);
+            window.location.replace("http://localhost:8080/Login.html");
         } else {
             let errField = data["field"];
             if (errField === "Err") {
-                showError(errs["err" + errField], "Please contact developer: " + data["reason"]);
+                showError(textBox["err" + errField], "Please contact developer: " + data["reason"]);
             } else {
                 showDivError(divs["div" + errField]);
-                showError(errs["err" + errField], data["reason"]);
+                showError(textBox["err" + errField], data["reason"]);
             }
         }
     } catch (error) {
@@ -205,23 +254,78 @@ function hasErrors() {
         if (field === "Ques1" || field === "Ques2" || field === "Ques3") {
             continue;
         }
-        let hasError = false;
-        if (isBlank(fields[field].value)) {
-            showDivError(divs["div" + field]);
-            hasError = true;
-        }
+        let hasError = isBlank(fields[field].value);
         if (hasError) {
             if (field === "First" || field === "Last") {
                 if (isBlank(fields[field].value)) {
-                    showError(errs["errName"], "Cannot be empty.");
+                    showError(textBox["errName"], "Cannot be empty.");
+                    showDivError(divs["divName"]);
                 }
             } else {
-                showError(errs["err" + field], "Cannot be empty.");
+                showError(textBox["err" + field], "Cannot be empty.");
+                showDivError(divs["div" + field]);
             }
             return true;
         }
     }
+    if (!verifyPw()) {
+        showDivError(divs["divPassword"]);
+        displayBlock(divs["divPwReqs"]);
+        fields["Password"].focus();
+        return true;
+    }
     return !samePassword() || hasSameQuestions();
+}
+
+function showPwReqs() {
+    displayBlock(divs["divPwReqs"]);
+    verifyPw()
+}
+
+function hidePwReqs() {
+    displayNone(divs["divPwReqs"]);
+}
+
+function verifyPw() {
+    let pw = fields["Password"].value;
+    let valid = true;
+    if (pw === "") {
+        for (const index in pwReqFields) {
+            pwReqFields[index].style.color = "red";
+        }
+        valid = false;
+    }
+    if (pw.length >= 8) {
+        pwReqFields["pw1"].style.color = "green";
+    } else {
+        pwReqFields["pw1"].style.color = "red";
+        valid = false;
+    }
+    if (regexUpper.test(pw)) {
+        pwReqFields["pw2"].style.color = "green";
+    } else {
+        pwReqFields["pw2"].style.color = "red";
+        valid = false;
+    }
+    if (regexLower.test(pw)) {
+        pwReqFields["pw3"].style.color = "green";
+    } else {
+        pwReqFields["pw3"].style.color = "red";
+        valid = false;
+    }
+    if (regexNumber.test(pw)) {
+        pwReqFields["pw4"].style.color = "green";
+    } else {
+        pwReqFields["pw4"].style.color = "red";
+        valid = false;
+    }
+    if (regexSpecial.test(pw)) {
+        pwReqFields["pw5"].style.color = "green";
+    } else {
+        pwReqFields["pw5"].style.color = "red";
+        valid = false;
+    }
+    return valid;
 }
 
 async function submit(event) {
@@ -232,5 +336,8 @@ async function submit(event) {
     }
 }
 
+fields["Password"].addEventListener("click", showPwReqs)
+fields["Password"].addEventListener("input", verifyPw)
+fields["Password"].addEventListener("blur", hidePwReqs)
 form.addEventListener("submit", submit);
-populateQuestions();
+populateSelections();

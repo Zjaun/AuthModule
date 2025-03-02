@@ -1,22 +1,51 @@
 package back_end
 
 import (
+	"bufio"
 	"database/sql"
 	"errors"
 	"fmt"
 	"github.com/go-sql-driver/mysql"
+	"log"
+	"os"
 )
 
-var db *sql.DB
+var (
+	db     *sql.DB
+	config mysql.Config
+)
 
-func Connect() error {
-	config := mysql.Config{
-		User:   "root",
-		Passwd: "test",
+func loadDbCreds() {
+	f, err := os.Open("dbCredentials")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer func() {
+		if err := f.Close(); err != nil {
+			log.Fatal(err)
+		}
+	}()
+	fs := bufio.NewScanner(f)
+	fs.Split(bufio.ScanLines)
+	s := make([]string, 0, 3)
+	for fs.Scan() {
+		s = append(s, fs.Text())
+	}
+	fmt.Printf("Loaded DB Credentials: %v\n", s)
+	config = mysql.Config{
+		User:   s[0],
+		Passwd: s[1],
 		Net:    "tcp",
 		Addr:   "127.0.0.1:3306",
-		DBName: "dbcsa1101",
+		DBName: s[2],
 	}
+}
+
+func init() {
+	loadDbCreds()
+}
+
+func Connect() error {
 	var err error
 	db, err = sql.Open("mysql", config.FormatDSN())
 	if err != nil {
@@ -36,9 +65,12 @@ func registerQuestions(ts *sql.Tx, username string, q *UserSecurity) error {
 	if ts == nil {
 		return errors.New("attempting to register user security options with nil transaction")
 	}
+	h1, _ := Encrypt(q.Sq1Ans)
+	h2, _ := Encrypt(q.Sq1Ans)
+	h3, _ := Encrypt(q.Sq1Ans)
 	_, err := ts.Exec(
 		"INSERT INTO tblusersecurity (username, sq1, sq1ans, sq2, sq2ans, sq3, sq3ans) VALUES (?, ?, ?, ?, ?, ?, ?)",
-		username, q.Sq1, q.Sq1Ans, q.Sq2, q.Sq2Ans, q.Sq3, q.Sq3Ans,
+		username, q.Sq1, h1, q.Sq2, h2, q.Sq3, h3,
 	)
 	if err != nil {
 		rollErr := ts.Rollback()
@@ -63,8 +95,8 @@ func RegisterUser(u *User) error {
 		return fmt.Errorf("could not begin transaction: %w", err)
 	}
 	_, err = ts.Exec(
-		"INSERT INTO tblusers (username, firstName, lastName, email, password) VALUES (?, ?, ?, ?, ?)",
-		u.Username, u.FirstName, u.LastName, u.Email, hashedPassword,
+		"INSERT INTO tblusers (username, firstName, lastName, email, password, position) VALUES (?, ?, ?, ?, ?, ?)",
+		u.Username, u.FirstName, u.LastName, u.Email, hashedPassword, u.Position,
 	)
 	if err != nil {
 		rollErr := ts.Rollback()
@@ -131,7 +163,7 @@ func Authenticate(c *LoginRequest) error {
 	if errors.Is(err, sql.ErrNoRows) {
 		return fmt.Errorf("Invalid Login Request")
 	} else if err != nil {
-		return fmt.Errorf("database error: %w", err)
+		return fmt.Errorf("dbCredentials error: %w", err)
 	}
 	if retrivedUser.Username != c.Username || !Compare(retrivedUser.Password, c.Password) {
 		return fmt.Errorf("Invalid Login Request")

@@ -40,4 +40,12 @@ export function hideDiv(div) {
     div.classList.add("hidden");
 }
 
+export function displayBlock(div) {
+    div.style.display = "block";
+}
+
+export function displayNone(div) {
+    div.style.display = "none";
+}
+
 export const delay = ms => new Promise(res => setTimeout(res, ms));

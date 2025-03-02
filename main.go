@@ -1,7 +1,7 @@
 package main
 
 import (
-	"CSA_1101_-_Authentication/back_end"
+	"AuthModule/back_end"
 	"fmt"
 	"github.com/rs/cors"
 	"log"

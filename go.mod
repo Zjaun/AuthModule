@@ -1,4 +1,4 @@
-module CSA_1101_-_Authentication
+module AuthModule
 
 go 1.23
 
